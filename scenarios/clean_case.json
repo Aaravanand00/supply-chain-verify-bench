@@ -1,7 +1,7 @@
 {
   "scenario_id": "scenario_1_clean",
   "title": "Clean Supply Chain Case",
-  "description": "All build step attestations are present, signatures are valid, and signers possess authorized policy roles.",
+  "description": "All build step attestations are present, signatures are valid and signers possess authorized policy roles.",
   "target_artifact": {
     "name": "secure-app-v1.0.0.tar.gz",
     "version": "1.0.0",
