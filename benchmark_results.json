@@ -1,0 +1,49 @@
+{
+  "total_scenarios": 4,
+  "correct_answers": 4,
+  "accuracy_percent": 100.0,
+  "scenarios": [
+    {
+      "scenario_id": "scenario_1_clean",
+      "title": "Clean Supply Chain Case",
+      "ground_truth": "trusted",
+      "oracle_failed_checks": [],
+      "model_answer": "trusted",
+      "is_correct": true,
+      "model_reason": "All required step attestations and release signatures are valid, cryptographically verified, and signed by authorized keys."
+    },
+    {
+      "scenario_id": "scenario_2_broken_signature",
+      "title": "Broken Signature Case",
+      "ground_truth": "not trusted",
+      "oracle_failed_checks": [
+        "Cryptographic signature verification failed for step 'build' signed by 'key_builder_1'."
+      ],
+      "model_answer": "not trusted",
+      "is_correct": true,
+      "model_reason": "The build attestation signature failed cryptographic integrity verification."
+    },
+    {
+      "scenario_id": "scenario_3_subtle_policy_violation",
+      "title": "Subtle Policy Violation Case",
+      "ground_truth": "not trusted",
+      "oracle_failed_checks": [
+        "Signer 'key_builder_1' lacks policy role 'release_manager' for release signing. Roles: ['builder']."
+      ],
+      "model_answer": "not trusted",
+      "is_correct": true,
+      "model_reason": "The release signature was created by 'key_builder_1', which does not possess the required 'release_manager' role."
+    },
+    {
+      "scenario_id": "scenario_4_missing_attestation",
+      "title": "Missing Attestation Case",
+      "ground_truth": "not trusted",
+      "oracle_failed_checks": [
+        "Missing required provenance attestation for pipeline step 'package'."
+      ],
+      "model_answer": "not trusted",
+      "is_correct": true,
+      "model_reason": "Required step 'package' is missing a corresponding attestation."
+    }
+  ]
+}

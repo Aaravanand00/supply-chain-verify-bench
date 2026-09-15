@@ -1,0 +1,62 @@
+{
+  "scenario_id": "scenario_3_subtle_policy_violation",
+  "title": "Subtle Policy Violation Case",
+  "description": "The release signature is cryptographically valid, but the signer (builder key) lacks the required policy role 'release_manager'.",
+  "target_artifact": {
+    "name": "secure-app-v1.0.0.tar.gz",
+    "version": "1.0.0",
+    "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "policy": {
+    "trusted_public_keys": {
+      "key_builder_1": {
+        "owner": "CI Build Worker",
+        "public_key_pem": "PUB_KEY_BUILDER_ALICE",
+        "roles": ["builder"]
+      },
+      "key_packager_1": {
+        "owner": "Packaging Bot",
+        "public_key_pem": "PUB_KEY_PACKAGER_BOB",
+        "roles": ["packager"]
+      },
+      "key_release_1": {
+        "owner": "Release Manager",
+        "public_key_pem": "PUB_KEY_RELEASE_CAROL",
+        "roles": ["release_manager"]
+      }
+    },
+    "required_steps": [
+      {
+        "step": "build",
+        "required_role": "builder"
+      },
+      {
+        "step": "package",
+        "required_role": "packager"
+      }
+    ],
+    "artifact_signing_role": "release_manager"
+  },
+  "attestations": [
+    {
+      "step": "build",
+      "signer_key_id": "key_builder_1",
+      "payload_hash": "a1b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f67890",
+      "signature": "f88af07b8d30006fdac0abd0a7f7bd54c0e6d6c938edf6ea936748557fc7ee93",
+      "timestamp": "2026-09-15T10:00:00Z"
+    },
+    {
+      "step": "package",
+      "signer_key_id": "key_packager_1",
+      "payload_hash": "b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f67890a1b2c3d4e5f67890a1",
+      "signature": "3d76f2f4bd144d528b5cf1568695879dc94322d98d77f43414a6fa3e353eda5a",
+      "timestamp": "2026-09-15T10:15:00Z"
+    }
+  ],
+  "release_signature": {
+    "signer_key_id": "key_builder_1",
+    "payload_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "signature": "16dc23969e4a187ce633855ca6aa05a7cd1c7c89f41ea855c12043ca7e775f2b"
+  },
+  "expected_verdict": "not trusted"
+}
